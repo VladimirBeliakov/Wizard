@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wizard Page</title>
+	<link id="wsite-base-style" rel="stylesheet" type="text/css" href="//cdn2.editmysite.com/css/sites.css?buildTime=1530191855" />
+	<link rel="stylesheet" type="text/css" href="//cdn2.editmysite.com/css/old/fancybox.css?1530191855" />
+	<link rel="stylesheet" type="text/css" href="//cdn2.editmysite.com/css/social-icons.css?buildtime=1530191855" media="screen,projection" />
+<!--	<link rel="stylesheet" type="text/css" href="/files/main_style.css?1530195344" title="wsite-theme-css" />-->
+
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+	<link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+
+	<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+	<div id="form-cont">
+		<div id="title">Test Prep Registration Wizard</div>
+
+		<div class="width-bracket" id="description">
+			<div>
+				When you’re registering for test prep, there are so many numbers and dates to keep in mind. We’ve made it easy for you to find out when your student needs to start tutoring at Illini Tutoring, and when you need to submit your registration form.
+			</div>
+			<div>
+				Simply follow the Wizard’s prompts. After answering a few easy questions, you will be shown your student’s Test Prep start dates and registration deadline.
+			</div>
+		</div>
+
+		<div id="question-one-test">
+			<div class="h2 heading">Which test are you taking?</div>
+			<div>
+				<a class="wsite-button">
+					<span id="sat" class="wsite-button-inner" onclick="onQuestionOneAnswered(event)">SAT</span>
+				</a>
+				<a class="wsite-button">
+					<span id="act" class="wsite-button-inner" onclick="onQuestionOneAnswered(event)">ACT</span>
+				</a>
+				<a class="wsite-button">
+					<span id="ssat" class="wsite-button-inner" onclick="onQuestionOneAnswered(event)">SSAT</span>
+				</a>
+			</div>
+		</div>
+		<div id="date" hidden>
+			<div class="h2 heading">Which test date are you preparing for?</div>
+			<div class="width-bracket" id="sat-buttons" hidden>
+				<a class="wsite-button">
+					<span id="aug-25" class="wsite-button-inner">August 25</span>
+				</a>
+				<a class="wsite-button">
+					<span id="oct-6" class="wsite-button-inner">October 6</span>
+				</a>
+				<a class="wsite-button">
+					<span id="nov-3" class="wsite-button-inner">November 3</span>
+				</a>
+				<a class="wsite-button">
+					<span id="dec-1" class="wsite-button-inner">December 1</span>
+				</a>
+				<a class="wsite-button">
+					<span id="mar-9" class="wsite-button-inner">March 9</span>
+				</a>
+				<a class="wsite-button">
+					<span id="may-4" class="wsite-button-inner">May 4</span>
+				</a>
+				<a class="wsite-button">
+					<span id="jun-1" class="wsite-button-inner">June 1</span>
+				</a>
+			</div>
+			<div class="width-bracket" id="act-buttons" hidden>
+				<a class="wsite-button">
+					<span id="sept-8" class="wsite-button-inner">September 8</span>
+				</a>
+				<a class="wsite-button">
+					<span id="oct-27" class="wsite-button-inner">October 27</span>
+				</a>
+				<a class="wsite-button">
+					<span id="dec-8-act" class="wsite-button-inner">December 8</span>
+				</a>
+				<a class="wsite-button">
+					<span id="feb-9" class="wsite-button-inner">February 9</span>
+				</a>
+				<a class="wsite-button">
+					<span id="apr-13" class="wsite-button-inner">April 13</span>
+				</a>
+				<a class="wsite-button">
+					<span id="jun-8-act" class="wsite-button-inner">June 8</span>
+				</a>
+			</div>
+			<div class="width-bracket" id="ssat-buttons" hidden>
+				<a class="wsite-button">
+					<span id="oct-13" class="wsite-button-inner">October 13</span>
+				</a>
+				<a class="wsite-button">
+					<span id="nov-10" class="wsite-button-inner">November 10</span>
+				</a>
+				<a class="wsite-button">
+					<span id="dec-8-ssat" class="wsite-button-inner">December 8</span>
+				</a>
+				<a class="wsite-button">
+					<span id="jan-5" class="wsite-button-inner">January 5</span>
+				</a>
+				<a class="wsite-button">
+					<span id="feb-2" class="wsite-button-inner">February 2</span>
+				</a>
+				<a class="wsite-button">
+					<span id="mar-2" class="wsite-button-inner">March 2</span>
+				</a>
+				<a class="wsite-button">
+					<span id="apr-27" class="wsite-button-inner">April 27</span>
+				</a>
+				<a class="wsite-button">
+					<span id="jun-8-ssat" class="wsite-button-inner">June 8</span>
+				</a>
+			</div>
+		</div>
+		<div id="choice-calculation" hidden>
+			<div class="h2 heading width-bracket">Would you like to choose the amount of prep hours, or would you like us to calculate it for you based on your starting score and on the amount of points you want to add?</div>
+			<a class="wsite-button">
+				<span id="choose" class="wsite-button-inner">Choose</span>
+			</a>
+			<a class="wsite-button">
+				<span id="calculate" class="wsite-button-inner">Calculate</span>
+			</a>
+		</div>
+		<div id="starting-score" hidden>
+			<div class="h2 heading">
+				What is your starting score?
+			</div>
+			<div id="suggestion-starting" class="h3 width-bracket">
+				These calculations are just suggestions. Schedule a consultation with Illini Tutoring to find out our specific recommendations for your child.
+			</div>
+
+			<div class="exam-calc width-bracket" id="sat-starting-score" hidden>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">850</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">900</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">950</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1000</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1050</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1100</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1150</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1200</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1250</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1300</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1350</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1400</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1450</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1500</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">1550</span>
+				</a>
+
+			</div>
+			<div class="exam-calc width-bracket" id="act-starting-score" hidden>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">18</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">19</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">20</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">21</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">22</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">23</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">24</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">25</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">26</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">27</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">28</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">29</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">30</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">31</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">32</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">33</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">34</span>
+				</a>
+			</div>
+			<div id="ssat-starting-score" hidden>
+				<div class="p width-bracket" id="ssat-note">
+					Note: Students who have scored under the 50th percentile may be strongly encouraged to complete several months of academic tutoring at Illini Tutoring before beginning a test prep package.
+				</div>
+				<div class="exam-calc" id="ssat-calc">
+					<a class="wsite-button">
+						<span class="wsite-button-inner">80-89%</span>
+					</a>
+					<a class="wsite-button">
+						<span class="wsite-button-inner">70-79%</span>
+					</a>
+					<a class="wsite-button">
+						<span class="wsite-button-inner">60-69%</span>
+					</a>
+					<a class="wsite-button">
+						<span class="wsite-button-inner">50-59%</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div id="points-to-add" hidden>
+			<div class="h2 heading width-bracket">
+				How many points you want to add?
+			</div>
+			<div id="suggestion-points" class="h3 width-bracket">
+				These calculations are just suggestions. Schedule a consultation with Illini Tutoring to find out our specific recommendations for your child.
+			</div>
+			<div class="exam-calc" id="sat-points" hidden>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">50</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">100</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">150</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">200</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">250</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">300</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">350</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">400</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">450</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">500+</span>
+				</a>
+			</div>
+			<div class="exam-calc" id="act-points" hidden>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">2</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">3</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">4</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">5</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">6</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">7</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">8</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">9</span>
+				</a>
+				<a class="wsite-button">
+					<span class="wsite-button-inner">10+</span>
+				</a>
+			</div>
+		</div>
+		<div id="hours" hidden>
+			<div class="h2">
+				How many hours of prep do you want to sign up for?
+			</div>
+			<div class="exam-calc">
+				<a class="wsite-button">
+					<span id="12" class="wsite-button-inner">12</span>
+				</a>
+				<a class="wsite-button">
+					<span id="18" class="wsite-button-inner">18</span>
+				</a>
+				<a class="wsite-button">
+					<span id="24" class="wsite-button-inner">24</span>
+				</a>
+				<a class="wsite-button">
+					<span id="30" class="wsite-button-inner">30</span>
+				</a>
+			</div>
+		</div>
+		<div id="cycle" hidden>
+			<div class="h2 heading width-bracket">Based on the options you’ve selected, your student will need to begin test prep for the <span id="testchoice"></span> on <span id="datechoice"></span> <span id="for-immediately">on </span><span id="start-date"></span>.</div>
+			<div class="h2 heading width-bracket">You need to register by <span id="deadline"></span>. We schedule students in the order in which they registered - so we encourage you to register as soon as possible to avoid inconvenient tutoring times or to avoid being waitlisted! Students who register
+				after the registration deadline will be scheduled if space allows. There is a $50 late registration fee.</div>
+			<div class="h2 heading width-bracket">Are you ready to register for test prep? Fill out the registration form.</div>
+		</div>
+		<div id="closed" hidden>
+			<div class="h2 heading width-bracket">Uh-oh! It looks like we are all out of seats for this test date and/or the number of hours you’ve chosen. Please try again by choosing a later test date or fewer test prep hours.</div>
+		</div>
+		<div id="not-offer-March" hidden>
+			<div class="h2 heading width-bracket">Illini Tutoring does not offer test prep for the March 2nd SSAT.</div>
+		</div>
+		<div id="not-offer-April" hidden>
+			<div class="h2 heading width-bracket">Illini Tutoring does not offer test prep for the April 27th SSAT.</div>
+		</div>
+		<div id="sat-act-unavailable" hidden>
+			<div class="h3 width-bracket heading">
+				Sorry, this option is not available. Please choose a different starting score, less points to add, or consult Illini Tutoring.<br>
+			</div>
+			<a class="wsite-button">
+				<span class="wsite-button-inner">Proceed</span>
+			</a>
+		</div>
+
+		<table id="table">
+			<tr>
+				<th id="test-text">Test</th>
+				<th id="date-text">Date</th>
+				<th id="starting-score-text" hidden>Starting Score</th>
+				<th id="points-to-add-text" hidden>Points to Add</th>
+				<th id="hours-text">Hours</th>
+			</tr>
+			<tr>
+				<td id="test-choice"></td>
+				<td id="date-choice"></td>
+				<td id="starting-score-choice" hidden></td>
+				<td id="points-to-add-choice" hidden></td>
+				<td id="hours-choice"></td>
+			</tr>
+		</table>
+		<br>
+		<div id="reset-parent">
+			<input type="text" id="test-submit" name="test" hidden>
+			<input id="date-submit" name="date" hidden>
+			<input id="hours-submit" name="hours" hidden>
+			<a id="reset-child" class="wsite-button">
+				<span id="reset" class="wsite-button-inner">Reset</span>
+			</a>
+			<a class="wsite-button">
+				<span class="wsite-button-inner">Submit</span>
+			</a>
+		</div>
+	</div>
+
+	<script src="./main.js" type="text/javascript"></script>
+</body>
+</html>

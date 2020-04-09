@@ -1,0 +1,60 @@
+#form-cont {
+	max-width: 900px;
+}
+#title {
+	font-size: 30px;
+	font-weight: bold;
+	margin: 20px 0;
+}
+#description > div {
+	font-size: 18px;
+	margin: 10px 0;
+}
+table, th, td {
+	text-align: center;
+	padding: 5px;
+	border-collapse: collapse;
+	font-size: 18px;
+	margin-top: 15px;
+}
+th, td {
+	height: 25px;
+	min-width: 100px;
+	border: 1px solid #dddddd;
+}
+th {
+	background-color: #dddddd;
+}
+.h2 {
+	font-size: 25px;
+	margin: 15px 0;
+	font-weight: bold;
+}
+.h3 {
+	font-size: 20px;
+	margin: 10px 0;
+	font-weight: bold;
+}
+.p {
+	font-size: 17px;
+	margin: 10px 0;
+}
+.exam-calc {
+	margin-top: 15px;
+}
+.heading {
+	margin-left: 0;
+	padding-left: 0;
+}
+#ssat-note{
+	font-style: italic;
+}
+#starting-score-text, #points-to-add-text {
+	font-size: 16px;
+}
+
+#suggestion-starting, #ssat-note, #suggestion-points {
+	margin-left: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
