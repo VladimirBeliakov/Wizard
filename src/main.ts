@@ -1,18 +1,11 @@
 function onQuestionOneAnswered(event: Event) {
-	const button = event.target as HTMLButtonElement;
-	if (button.textContent === "ACT") {
-		hideWhichTest();
-		showActDates();
-	} else if (button.textContent === "SAT") {
-		hideWhichTest();
-		showSatDates();
-	} else if (button.textContent === "SSAT") {
-		hideWhichTest();
-		showSsatDates();
-	}
+	hideWhichTest();
+	const testName = (event.target as HTMLButtonElement).textContent;
+
+	showTestDates(testName);
 	// @ts-ignore
-	document.getElementById("test-submit").value = button.textContent;
-	document.getElementById("test-choice").innerHTML = button.textContent;
+	document.getElementById("test-submit").value = testName;
+	document.getElementById("test-choice").innerHTML = testName;
 }
 	document.addEventListener("click", function(event: Event) {
 		// @ts-ignore
@@ -161,17 +154,9 @@ function hideResetButton() {
 function showWhichTest() {
 	document.getElementById("question-one-test").style.display = "block";
 }
-function showActDates() {
-	document.getElementById("date").style.display = "block";
-	document.getElementById("act-buttons").style.display = "inline";
-}
-function showSatDates() {
-	document.getElementById("date").style.display = "block";
-	document.getElementById("sat-buttons").style.display = "inline";
-}
-function showSsatDates() {
-	document.getElementById("date").style.display = "block";
-	document.getElementById("ssat-buttons").style.display = "inline";
+function showTestDates(testName: string) {
+	document.getElementById("question-two-which-date").style.display = "block";
+	document.getElementById(`${testName.toLowerCase()}-buttons`).style.display = "inline";
 }
 function showChoiceCalculation() {
 	document.getElementById("choice-calculation").style.display = "block";
