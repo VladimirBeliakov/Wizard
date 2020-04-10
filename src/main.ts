@@ -1,6 +1,34 @@
+const testData = [
+	{
+		"name" : "SAT"
+	},
+	{
+		"name" : "ACT"
+	},
+	{
+		"name" : "SSAT"
+	},
+];
+
+(function() {
+	for (let test of testData) {
+		const testName = test.name;
+		const testNode = `
+				<a class="wsite-button">
+					<span id="${testName.toLowerCase()}" 
+							class="wsite-button-inner" 
+							onclick="onQuestionOneAnswered(event)">
+						${testName.toUpperCase()}
+					</span>
+				</a>`;
+
+		document.getElementById("question-one-which-test").insertAdjacentHTML('beforeend', testNode);
+	}
+})();
+
 function onQuestionOneAnswered(event: Event) {
 	hideWhichTest();
-	const testName = (event.target as HTMLButtonElement).textContent;
+	const testName = (event.target as HTMLButtonElement).textContent.trim();
 
 	showTestDates(testName);
 	// @ts-ignore
@@ -115,10 +143,10 @@ function onQuestionOneAnswered(event: Event) {
 	});
 
 function hideWhichTest() {
-	document.getElementById("question-one-test").style.display = "none";
+	document.getElementById("question-one-which-test").style.display = "none";
 }
 function hideWhichDateGeneric() {
-	document.getElementById("date").style.display = "none";
+	document.getElementById("question-two-which-date").style.display = "none";
 	document.getElementById("act-buttons").style.display = "none";
 	document.getElementById("sat-buttons").style.display = "none";
 	document.getElementById("ssat-buttons").style.display = "none";
@@ -152,7 +180,7 @@ function hideResetButton() {
 	parent.removeChild(child);
 }
 function showWhichTest() {
-	document.getElementById("question-one-test").style.display = "block";
+	document.getElementById("question-one-which-test").style.display = "block";
 }
 function showTestDates(testName: string) {
 	document.getElementById("question-two-which-date").style.display = "block";
