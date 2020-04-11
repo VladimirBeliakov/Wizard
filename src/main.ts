@@ -1,19 +1,43 @@
-const testData = [
-	{
-		"name" : "SAT"
+const testData = {
+	"SAT" : {
+		dates : [
+			"August 25",
+			"October 6",
+			"November 3",
+			"December 1",
+			"March 9",
+			"May 4",
+			"June 1",
+		]
 	},
-	{
-		"name" : "ACT"
+	"ACT" : {
+		dates : [
+			"September 8",
+			"October 27",
+			"December 8",
+			"February 9",
+			"April 13",
+			"June 8",
+		]
 	},
-	{
-		"name" : "SSAT"
-	},
-];
-
+	"SSAT" : {
+		dates : [
+			"October 13",
+			"November 10",
+			"December 8",
+			"January 5",
+			"February 2",
+			"March 2",
+			"April 27",
+			"June 8",
+		]
+	}
+};
+const testNames = Object.keys(testData);
 (function() {
-	for (let test of testData) {
-		const testName = test.name;
-		const testNode = `
+	let testNodes = '<div>';
+	for (let testName of testNames) {
+		testNodes += `
 				<a class="wsite-button">
 					<span id="${testName.toLowerCase()}" 
 							class="wsite-button-inner" 
@@ -22,10 +46,24 @@ const testData = [
 					</span>
 				</a>`;
 
-		document.getElementById("question-one-which-test").insertAdjacentHTML('beforeend', testNode);
+	}
+	testNodes += '</div>';
+	document.getElementById("question-one-which-test").insertAdjacentHTML('beforeend', testNodes);
+})();
+(function() {
+	for (let test of testNames) {
+		let testDates = '';
+		for (let testDate of testData[test].dates) {
+			const tag = convertTextToTag(testDate);
+			testDates += `<a class="wsite-button">
+							<span id="${tag}" class="wsite-button-inner">${testDate}</span>
+						  </a>`;
+		}
+
+		const testTagPrefix = convertTextToTag(test);
+		document.getElementById(`${testTagPrefix}-date-buttons`).insertAdjacentHTML('beforeend', testDates);
 	}
 })();
-
 function onQuestionOneAnswered(event: Event) {
 	hideWhichTest();
 	const testName = (event.target as HTMLButtonElement).textContent.trim();
@@ -35,13 +73,18 @@ function onQuestionOneAnswered(event: Event) {
 	document.getElementById("test-submit").value = testName;
 	document.getElementById("test-choice").innerHTML = testName;
 }
+
+function convertTextToTag(value: string) {
+	return value.toLowerCase().replace(' ', '-')
+}
+
 	document.addEventListener("click", function(event: Event) {
 		// @ts-ignore
 		if (event.target.tagName === "BUTTON" || event.target.tagName === "SPAN") {
 			const button = event.target as HTMLButtonElement;
 			let hourschoice;
 		// @ts-ignore
-			if (button.parentNode.parentNode.parentNode.id === "date") {
+			if (button.parentNode.parentNode.parentNode.id === "question-two-which-date") {
 				if (button.textContent === "March 2") {
 					document.getElementById("not-offer-March").style.display = "block";
 					hideWhichDateGeneric();
@@ -147,9 +190,9 @@ function hideWhichTest() {
 }
 function hideWhichDateGeneric() {
 	document.getElementById("question-two-which-date").style.display = "none";
-	document.getElementById("act-buttons").style.display = "none";
-	document.getElementById("sat-buttons").style.display = "none";
-	document.getElementById("ssat-buttons").style.display = "none";
+	document.getElementById("act-date-buttons").style.display = "none";
+	document.getElementById("sat-date-buttons").style.display = "none";
+	document.getElementById("ssat-date-buttons").style.display = "none";
 }
 function hideChoiceCalculation() {
 	document.getElementById("choice-calculation").style.display = "none";
@@ -184,7 +227,7 @@ function showWhichTest() {
 }
 function showTestDates(testName: string) {
 	document.getElementById("question-two-which-date").style.display = "block";
-	document.getElementById(`${testName.toLowerCase()}-buttons`).style.display = "inline";
+	document.getElementById(`${testName.toLowerCase()}-date-buttons`).style.display = "inline";
 }
 function showChoiceCalculation() {
 	document.getElementById("choice-calculation").style.display = "block";
