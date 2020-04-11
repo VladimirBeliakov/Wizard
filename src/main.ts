@@ -37,8 +37,9 @@ const testData = {
 const testNames = Object.keys(testData);
 const dateAvailabilityAttr = 'data-date-availability';
 const testNameAttr = 'data-test-name';
+const testDateButtonAttrPostfix = '-date-buttons';
 
-(function() {
+(function insertTestButtons() {
 	let testNodes = '<div>';
 	for (let testName of testNames) {
 		testNodes += `
@@ -54,14 +55,15 @@ const testNameAttr = 'data-test-name';
 	testNodes += '</div>';
 	document.getElementById("question-one-which-test").insertAdjacentHTML('beforeend', testNodes);
 })();
-(function() {
+(function insertTestDateButtons() {
 	for (let test of testNames) {
-		let testDates = '';
+		const testTagPrefix = convertTextToTag(test);
+		let testDates = `<div class="width-bracket" id="${testTagPrefix + testDateButtonAttrPostfix}" hidden>`;
 		for (let testDate of testData[test].dates) {
 			const date = testDate.value;
-			const tag = convertTextToTag(date);
+			const dateTag = convertTextToTag(date);
 			testDates += `<a class="wsite-button">
-							<span id="${tag}" 
+							<span id="${dateTag}" 
 								${dateAvailabilityAttr}="${testDate.available}" 
 								${testNameAttr}="${test}"
 								class="wsite-button-inner"
@@ -69,9 +71,8 @@ const testNameAttr = 'data-test-name';
 							</span>
 						  </a>`;
 		}
-
-		const testTagPrefix = convertTextToTag(test);
-		document.getElementById(`${testTagPrefix}-date-buttons`).insertAdjacentHTML('beforeend', testDates);
+		testDates += '</div>';
+		document.getElementById('question-two-which-date').insertAdjacentHTML('beforeend', testDates);
 	}
 })();
 
@@ -202,9 +203,9 @@ function hideWhichTest() {
 }
 function hideWhichDateGeneric() {
 	document.getElementById("question-two-which-date").style.display = "none";
-	document.getElementById("act-date-buttons").style.display = "none";
-	document.getElementById("sat-date-buttons").style.display = "none";
-	document.getElementById("ssat-date-buttons").style.display = "none";
+	for (const testName of testNames) {
+		document.getElementById(testName.toLowerCase() + testDateButtonAttrPostfix).style.display = "none";
+	}
 }
 function hideChoiceCalculation() {
 	document.getElementById("choice-calculation").style.display = "none";
@@ -239,7 +240,7 @@ function showWhichTest() {
 }
 function showTestDates(testName: string) {
 	document.getElementById("question-two-which-date").style.display = "block";
-	document.getElementById(`${testName.toLowerCase()}-date-buttons`).style.display = "inline";
+	document.getElementById(testName.toLowerCase() + testDateButtonAttrPostfix).style.display = "inline";
 }
 function showChoiceCalculation() {
 	document.getElementById("choice-calculation").style.display = "block";
