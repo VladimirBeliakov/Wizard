@@ -1,39 +1,43 @@
 const testData = {
 	"SAT" : {
 		dates : [
-			"August 25",
-			"October 6",
-			"November 3",
-			"December 1",
-			"March 9",
-			"May 4",
-			"June 1",
+			{ value : "August 25", available : true },
+			{ value : "October 6", available : true },
+			{ value : "November 3", available : true },
+			{ value : "December 1", available : true },
+			{ value : "March 9", available : true },
+			{ value : "May 4", available : true },
+			{ value : "June 1", available : true },
 		]
 	},
 	"ACT" : {
 		dates : [
-			"September 8",
-			"October 27",
-			"December 8",
-			"February 9",
-			"April 13",
-			"June 8",
+			{ value : "September 8", available : true },
+			{ value : "October 27", available : true },
+			{ value : "December 8", available : true },
+			{ value : "February 9", available : true },
+			{ value : "April 13", available : true },
+			{ value : "June 8", available : true },
 		]
 	},
 	"SSAT" : {
 		dates : [
-			"October 13",
-			"November 10",
-			"December 8",
-			"January 5",
-			"February 2",
-			"March 2",
-			"April 27",
-			"June 8",
+			{ value : "October 13", available : true },
+			{ value : "November 10", available : true },
+			{ value : "December 8", available : true },
+			{ value : "January 5", available : true },
+			{ value : "February 2", available : true },
+			{ value : "March 2", available : false },
+			{ value : "April 27", available : false },
+			{ value : "June 8", available : true },
 		]
 	}
 };
+
 const testNames = Object.keys(testData);
+const dateAvailabilityAttr = 'data-date-availability';
+const testNameAttr = 'data-test-name';
+
 (function() {
 	let testNodes = '<div>';
 	for (let testName of testNames) {
@@ -41,7 +45,7 @@ const testNames = Object.keys(testData);
 				<a class="wsite-button">
 					<span id="${testName.toLowerCase()}" 
 							class="wsite-button-inner" 
-							onclick="onQuestionOneAnswered(event)">
+							onclick="onTestSelected(event)">
 						${testName.toUpperCase()}
 					</span>
 				</a>`;
@@ -54,9 +58,15 @@ const testNames = Object.keys(testData);
 	for (let test of testNames) {
 		let testDates = '';
 		for (let testDate of testData[test].dates) {
-			const tag = convertTextToTag(testDate);
+			const date = testDate.value;
+			const tag = convertTextToTag(date);
 			testDates += `<a class="wsite-button">
-							<span id="${tag}" class="wsite-button-inner">${testDate}</span>
+							<span id="${tag}" 
+								${dateAvailabilityAttr}="${testDate.available}" 
+								${testNameAttr}="${test}"
+								class="wsite-button-inner"
+								onclick="onDateSelected(event)">${date}
+							</span>
 						  </a>`;
 		}
 
@@ -64,14 +74,31 @@ const testNames = Object.keys(testData);
 		document.getElementById(`${testTagPrefix}-date-buttons`).insertAdjacentHTML('beforeend', testDates);
 	}
 })();
-function onQuestionOneAnswered(event: Event) {
+
+function onTestSelected(event: Event) {
 	hideWhichTest();
 	const testName = (event.target as HTMLButtonElement).textContent.trim();
-
 	showTestDates(testName);
 	// @ts-ignore
 	document.getElementById("test-submit").value = testName;
 	document.getElementById("test-choice").innerHTML = testName;
+}
+
+function onDateSelected(event: Event) {
+	const dateNode = event.target as HTMLButtonElement;
+	const date = dateNode.textContent.trim();
+	hideWhichDateGeneric();
+	if (dateNode.getAttribute(dateAvailabilityAttr) === 'false') {
+		const testName = dateNode.getAttribute(testNameAttr);
+		const noOfferDateText = `Illini Tutoring does not offer test prep for the ${date} ${testName}.`;
+		document.getElementById("not-offer-test-date").style.display = "block";
+		document.getElementById("not-offer-test-date").innerText = noOfferDateText;
+	} else {
+		showChoiceCalculation();
+		// @ts-ignore
+		document.getElementById("date-submit").value = date;
+		document.getElementById("date-choice").innerHTML = date;
+	}
 }
 
 function convertTextToTag(value: string) {
@@ -83,22 +110,7 @@ function convertTextToTag(value: string) {
 		if (event.target.tagName === "BUTTON" || event.target.tagName === "SPAN") {
 			const button = event.target as HTMLButtonElement;
 			let hourschoice;
-		// @ts-ignore
-			if (button.parentNode.parentNode.parentNode.id === "question-two-which-date") {
-				if (button.textContent === "March 2") {
-					document.getElementById("not-offer-March").style.display = "block";
-					hideWhichDateGeneric();
-				} else if (button.textContent === "April 27") {
-					document.getElementById("not-offer-April").style.display = "block";
-					hideWhichDateGeneric();
-				} else {
-					showChoiceCalculation();
-					hideWhichDateGeneric();
-					// @ts-ignore
-					document.getElementById("date-submit").value = button.textContent;
-					document.getElementById("date-choice").innerHTML = button.textContent;
-				}
-			} else if (button.textContent === "Choose") {
+			if (button.textContent === "Choose") {
 				showHowManyHours();
 				hideChoiceCalculation();
 			} else if (button.textContent === "Calculate") {
@@ -449,8 +461,7 @@ function showResult(hourschoice) {
 function hideResult() {
 	document.getElementById("cycle").style.display = "none";
 	document.getElementById("closed").style.display = "none";
-	document.getElementById("not-offer-March").style.display = "none";
-	document.getElementById("not-offer-April").style.display = "none";
+	document.getElementById("not-offer-test-date").style.display = "none";
 }
 function determineHours(pointsToAdd) {
 	const startingScore = document.getElementById("starting-score-choice")
