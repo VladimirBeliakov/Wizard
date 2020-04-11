@@ -8,7 +8,7 @@ const testData = {
 			{ value : "March 9", available : true },
 			{ value : "May 4", available : true },
 			{ value : "June 1", available : true },
-		]
+		],
 	},
 	"ACT" : {
 		dates : [
@@ -33,6 +33,7 @@ const testData = {
 		]
 	}
 };
+const hoursToChoose = [ 12, 18, 24, 30 ];
 
 const testNames = Object.keys(testData);
 const dateAvailabilityAttr = 'data-date-availability';
@@ -75,6 +76,16 @@ const testDateButtonAttrPostfix = '-date-buttons';
 		document.getElementById('question-two-which-date').insertAdjacentHTML('beforeend', testDates);
 	}
 })();
+(function insertHoursToChoose() {
+	let hoursNode = '<div class="exam-calc">';
+	for (const hour of hoursToChoose) {
+		hoursNode += `<a class="wsite-button">
+						<span id="${hour}" class="wsite-button-inner">${hour}</span>
+					  </a>`
+	}
+	hoursNode += '</div>';
+	document.getElementById('hours').insertAdjacentHTML('beforeend', hoursNode);
+})();
 
 function onTestSelected(event: Event) {
 	hideWhichTest();
@@ -102,6 +113,11 @@ function onDateSelected(event: Event) {
 	}
 }
 
+function onCalculationChosen() {
+	showHowManyHours();
+	hideChoiceCalculation();
+}
+
 function convertTextToTag(value: string) {
 	return value.toLowerCase().replace(' ', '-')
 }
@@ -111,10 +127,7 @@ function convertTextToTag(value: string) {
 		if (event.target.tagName === "BUTTON" || event.target.tagName === "SPAN") {
 			const button = event.target as HTMLButtonElement;
 			let hourschoice;
-			if (button.textContent === "Choose") {
-				showHowManyHours();
-				hideChoiceCalculation();
-			} else if (button.textContent === "Calculate") {
+			if (button.textContent === "Calculate") {
 				if (document.getElementById("test-choice").innerHTML == "SAT") {
 					showStartingScoreSat();
 				} else if (document.getElementById("test-choice").innerHTML == "ACT") {
