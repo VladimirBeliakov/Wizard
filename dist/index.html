@@ -38,13 +38,17 @@
 		<div id="question-two-which-date" hidden>
 			<div class="h2 heading">Which test date are you preparing for?</div>
 		</div>
-		<div id="choice-calculation" hidden>
+		<div id="hours-calculation-choice" hidden>
 			<div class="h2 heading width-bracket">Would you like to choose the amount of prep hours, or would you like us to calculate it for you based on your starting score and on the amount of points you want to add?</div>
 			<a class="wsite-button">
-				<span id="choose" class="wsite-button-inner" onclick="onCalculationChosen()">Choose</span>
+				<span id="choose" class="wsite-button-inner" onclick="onCalculateHoursManuallyChosen()">
+					Choose
+				</span>
 			</a>
 			<a class="wsite-button">
-				<span id="calculate" class="wsite-button-inner">Calculate</span>
+				<span id="calculate" class="wsite-button-inner" onclick="onCalculateHoursAutomaticallyChosen()">
+					Calculate
+				</span>
 			</a>
 		</div>
 		<div id="starting-score" hidden>
@@ -53,127 +57,6 @@
 			</div>
 			<div id="suggestion-starting" class="h3 width-bracket">
 				These calculations are just suggestions. Schedule a consultation with Illini Tutoring to find out our specific recommendations for your child.
-			</div>
-
-			<div class="exam-calc width-bracket" id="sat-starting-score" hidden>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">850</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">900</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">950</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1000</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1050</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1100</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1150</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1200</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1250</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1300</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1350</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1400</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1450</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1500</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">1550</span>
-				</a>
-
-			</div>
-			<div class="exam-calc width-bracket" id="act-starting-score" hidden>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">18</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">19</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">20</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">21</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">22</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">23</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">24</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">25</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">26</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">27</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">28</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">29</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">30</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">31</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">32</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">33</span>
-				</a>
-				<a class="wsite-button">
-					<span class="wsite-button-inner">34</span>
-				</a>
-			</div>
-			<div id="ssat-starting-score" hidden>
-				<div class="p width-bracket" id="ssat-note">
-					Note: Students who have scored under the 50th percentile may be strongly encouraged to complete several months of academic tutoring at Illini Tutoring before beginning a test prep package.
-				</div>
-				<div class="exam-calc" id="ssat-calc">
-					<a class="wsite-button">
-						<span class="wsite-button-inner">80-89%</span>
-					</a>
-					<a class="wsite-button">
-						<span class="wsite-button-inner">70-79%</span>
-					</a>
-					<a class="wsite-button">
-						<span class="wsite-button-inner">60-69%</span>
-					</a>
-					<a class="wsite-button">
-						<span class="wsite-button-inner">50-59%</span>
-					</a>
-				</div>
 			</div>
 		</div>
 		<div id="points-to-add" hidden>
