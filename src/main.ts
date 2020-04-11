@@ -101,9 +101,11 @@ const testStartingScoreAttrPostfix = '-starting-score';
 })();
 (function insertHoursToChoose() {
 	let hoursNode = '<div class="exam-calc">';
-	for (const hour of hoursToChoose) {
+	for (const hours of hoursToChoose) {
 		hoursNode += `<a class="wsite-button">
-						<span id="${hour}" class="wsite-button-inner">${hour}</span>
+						<span id="${hours}" class="wsite-button-inner" onclick="onHoursSelected('${hours}')">
+							${hours}
+						</span>
 					  </a>`
 	}
 	hoursNode += '</div>';
@@ -235,6 +237,15 @@ function onProceed() {
 	showStartingScore(chosenTest);
 }
 
+function onHoursSelected(hours: string) {
+	// @ts-ignore
+	document.getElementById("hours-submit").value = hours;
+	document.getElementById("hours-choice").innerHTML = hours;
+	chosenHours = hours;
+	hideHowManyHours();
+	showResult(chosenHours);
+}
+
 function convertTextToTag(value: string) {
 	return value.toLowerCase().replace(' ', '-')
 }
@@ -249,12 +260,6 @@ function convertTextToTag(value: string) {
 				// @ts-ignore
 				button.parentNode.parentNode.parentNode.id === "hours"
 			) {
-				// @ts-ignore
-				document.getElementById("hours-submit").value = button.textContent;
-				document.getElementById("hours-choice").innerHTML = button.textContent;
-				hourschoice = button.textContent;
-				hideHowManyHours();
-				showResult(hourschoice);
 			} else if (button.textContent === "Reset") {
 				hideHowManyHours();
 				hideWhichDateGeneric();
