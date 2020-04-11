@@ -108,15 +108,15 @@
 			</tr>
 		</table>
 		<br>
-		<div id="reset-parent">
+		<div id="submit-reset-buttons">
 			<input type="text" id="test-submit" name="test" hidden>
 			<input id="date-submit" name="date" hidden>
 			<input id="hours-submit" name="hours" hidden>
-			<a id="reset-child" class="wsite-button">
-				<span id="reset" class="wsite-button-inner">Reset</span>
+			<a id="reset-button" class="wsite-button">
+				<span id="reset" class="wsite-button-inner" onclick="onReset()">Reset</span>
 			</a>
 			<a class="wsite-button">
-				<span class="wsite-button-inner">Submit</span>
+				<span class="wsite-button-inner" onclick="onSubmit()">Submit</span>
 			</a>
 		</div>
 	</div>

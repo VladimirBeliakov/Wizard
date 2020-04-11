@@ -246,41 +246,32 @@ function onHoursSelected(hours: string) {
 	showResult(chosenHours);
 }
 
+function onReset() {
+	hideHowManyHours();
+	hideWhichDateGeneric();
+	hideChoiceCalculation();
+	hideStartingScore();
+	hidePointsToAdd();
+	hideExtraTable();
+	hideResult();
+	showWhichTest();
+	document.getElementById("for-immediately").style.display = "inline";
+	clearTable();
+}
+
+function onSubmit() {
+	if (
+		document.getElementById("test-choice").innerHTML !== "" &&
+		document.getElementById("date-choice").innerHTML !== "" &&
+		document.getElementById("hours-choice").innerHTML !== ""
+	) {
+		hideResetButton();
+	}
+}
+
 function convertTextToTag(value: string) {
 	return value.toLowerCase().replace(' ', '-')
 }
-
-	document.addEventListener("click", function(event: Event) {
-		// @ts-ignore
-		if (event.target.tagName === "BUTTON" || event.target.tagName === "SPAN") {
-			const button = event.target as HTMLButtonElement;
-			let hourschoice;
-			// @ts-ignore
-			if (
-				// @ts-ignore
-				button.parentNode.parentNode.parentNode.id === "hours"
-			) {
-			} else if (button.textContent === "Reset") {
-				hideHowManyHours();
-				hideWhichDateGeneric();
-				hideChoiceCalculation();
-				hideStartingScore();
-				hidePointsToAdd();
-				hideExtraTable();
-				hideResult();
-				showWhichTest();
-				document.getElementById("for-immediately").style.display = "inline";
-				clearTable();
-			} else if (
-				button.textContent === "Submit" &&
-				document.getElementById("test-choice").innerHTML !== "" &&
-				document.getElementById("date-choice").innerHTML !== "" &&
-				document.getElementById("hours-choice").innerHTML !== ""
-			) {
-				hideResetButton();
-			}
-		}
-	});
 
 function hideWhichTest() {
 	document.getElementById("question-one-which-test").style.display = "none";
@@ -318,8 +309,8 @@ function hideHowManyHours() {
 	document.getElementById("hours").style.display = "none";
 }
 function hideResetButton() {
-	const parent = document.getElementById("reset-parent");
-	const child = document.getElementById("reset-child");
+	const parent = document.getElementById("submit-reset-buttons");
+	const child = document.getElementById("reset-button");
 	parent.removeChild(child);
 }
 function showWhichTest() {
