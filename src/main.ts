@@ -227,6 +227,14 @@ function onPointsToAddChosen(pointsToAdd: string) {
 	}
 }
 
+function onProceed() {
+	if (testData[chosenTest].canAddPoints === false) {
+		return;
+	}
+	document.getElementById("cannot-add-points").style.display = "none";
+	showStartingScore(chosenTest);
+}
+
 function convertTextToTag(value: string) {
 	return value.toLowerCase().replace(' ', '-')
 }
@@ -237,15 +245,7 @@ function convertTextToTag(value: string) {
 			const button = event.target as HTMLButtonElement;
 			let hourschoice;
 			// @ts-ignore
-			if (button.parentNode.parentNode.parentNode.id == "points-to-add") {
-			} else if (button.textContent === "Proceed") {
-				document.getElementById("cannot-add-points").style.display = "none";
-				if (document.getElementById("test-choice").innerHTML == "SAT") {
-					showStartingScore("SAT");
-				} else if (document.getElementById("test-choice").innerHTML == "ACT") {
-					showStartingScore("ACT");
-				}
-			} else if (
+			if (
 				// @ts-ignore
 				button.parentNode.parentNode.parentNode.id === "hours"
 			) {
