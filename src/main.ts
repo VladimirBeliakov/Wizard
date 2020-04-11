@@ -14,7 +14,9 @@ const testData = {
 				850, 900, 950, 1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450, 1500, 1550
 			],
 			note : null
-		}
+		},
+		canAddPoints : true,
+		pointsToAdd : [ '50', '100', '150', '200', '250', '300', '350', '400', '450', '500+' ],
 	},
 	"ACT" : {
 		dates : [
@@ -31,6 +33,8 @@ const testData = {
 			],
 			note : null
 		},
+		canAddPoints : true,
+		pointsToAdd : [ '2', '3', '4', '5', '6', '7', '8', '9', '10+' ],
 	},
 	"SSAT" : {
 		dates : [
@@ -48,6 +52,8 @@ const testData = {
 			note : 'Note: Students who have scored under the 50th percentile may be strongly encouraged to complete ' +
 				   'several months of academic tutoring at Illini Tutoring before beginning a test prep package.',
 		},
+		canAddPoints : false,
+		pointsToAdd : [],
 	}
 };
 const hoursToChoose = [ 12, 18, 24, 30 ];
@@ -65,11 +71,10 @@ const testStartingScoreAttrPostfix = '-starting-score';
 				<a class="wsite-button">
 					<span id="${testName.toLowerCase()}" 
 							class="wsite-button-inner" 
-							onclick="onTestSelected(event)">
+							onclick="onTestSelected('${testName}')">
 						${testName.toUpperCase()}
 					</span>
 				</a>`;
-
 	}
 	testNodes += '</div>';
 	document.getElementById("question-one-which-test").insertAdjacentHTML('beforeend', testNodes);
@@ -86,7 +91,7 @@ const testStartingScoreAttrPostfix = '-starting-score';
 								${dateAvailabilityAttr}="${testDate.available}" 
 								${testNameAttr}="${test}"
 								class="wsite-button-inner"
-								onclick="onDateSelected(event)">${date}
+								onclick="onDateSelected('${test}', '${date}', ${testDate.available})">${date}
 							</span>
 						  </a>`;
 		}
@@ -119,7 +124,10 @@ const testStartingScoreAttrPostfix = '-starting-score';
 
 		for (const startingScore of testData[test].startingScore.value) {
 			startingScoresNode += `<a class="wsite-button">
-									<span class="wsite-button-inner">${startingScore}</span>
+									<span class="wsite-button-inner" 
+											onclick="onStartingScoreChosen('${startingScore}')">
+										${startingScore}
+									</span>
 								   </a>`;
 		}
 		startingScoresNode += '</div>';
@@ -127,30 +135,52 @@ const testStartingScoreAttrPostfix = '-starting-score';
 		document.getElementById("starting-score").insertAdjacentHTML('beforeend', startingScoresNode);
 	}
 })();
+(function insertPointsToAdd() {
+	for (const test of testNames) {
+		if (testData[test].canAddPoints === false) {
+			continue;
+		}
 
-function onTestSelected(event: Event) {
+		const testTagPrefix = convertTextToTag(test);
+		let pointsToAddNode = `<div class="exam-calc" id="${testTagPrefix}-points" hidden>`;
+
+		for (const point of testData[test].pointsToAdd) {
+			pointsToAddNode += `<a class="wsite-button">
+									<span class="wsite-button-inner" onclick="onPointsToAddChosen('${point}')">
+										${point}
+									</span>
+								</a>`;
+		}
+
+		pointsToAddNode += '</div>';
+
+		document.getElementById('points-to-add').insertAdjacentHTML('beforeend', pointsToAddNode);
+	}
+})();
+
+let chosenTest: string;
+let chosenHours: string;
+
+function onTestSelected(testName: string) {
 	hideWhichTest();
-	const testName = (event.target as HTMLButtonElement).textContent.trim();
 	showTestDates(testName);
 	// @ts-ignore
 	document.getElementById("test-submit").value = testName;
 	document.getElementById("test-choice").innerHTML = testName;
+	chosenTest = testName;
 }
 
-function onDateSelected(event: Event) {
-	const dateNode = event.target as HTMLButtonElement;
-	const date = dateNode.textContent.trim();
+function onDateSelected(testName: string, selectedDate: string, available: boolean) {
 	hideWhichDateGeneric();
-	if (dateNode.getAttribute(dateAvailabilityAttr) === 'false') {
-		const testName = dateNode.getAttribute(testNameAttr);
-		const noOfferDateText = `Illini Tutoring does not offer test prep for the ${date} ${testName}.`;
+	if (available === false) {
+		const noOfferDateText = `Illini Tutoring does not offer test prep for the ${selectedDate} ${testName}.`;
 		document.getElementById("not-offer-test-date").style.display = "block";
 		document.getElementById("not-offer-test-date").innerText = noOfferDateText;
 	} else {
 		showChoiceCalculation();
 		// @ts-ignore
-		document.getElementById("date-submit").value = date;
-		document.getElementById("date-choice").innerHTML = date;
+		document.getElementById("date-submit").value = selectedDate;
+		document.getElementById("date-choice").innerHTML = selectedDate;
 	}
 }
 
@@ -160,16 +190,41 @@ function onCalculateHoursManuallyChosen() {
 }
 
 function onCalculateHoursAutomaticallyChosen() {
-	if (document.getElementById("test-choice").innerHTML == "SAT") {
-		showStartingScoreSat();
-	} else if (document.getElementById("test-choice").innerHTML == "ACT") {
-		showStartingScoreAct();
-	} else if (document.getElementById("test-choice").innerHTML == "SSAT") {
-		showStartingScoreSsat();
+	if (testData[chosenTest].canAddPoints === false) {
 		document.getElementById("points-to-add-choice").innerHTML = "N/A";
 	}
+	showStartingScore(chosenTest);
 	showExtraTable();
 	hideChoiceCalculation();
+}
+
+function onStartingScoreChosen(startingScore: string) {
+	hideStartingScore();
+	document.getElementById("starting-score-choice").innerHTML = startingScore;
+	if (testData[chosenTest].canAddPoints === true) {
+		showPointsToAdd(chosenTest);
+	} else {
+		chosenHours = determineHours(null);
+		// @ts-ignore
+		document.getElementById("hours-submit").value = chosenHours;
+		document.getElementById("hours-choice").innerHTML = chosenHours;
+		showResult(chosenHours);
+	}
+}
+
+function onPointsToAddChosen(pointsToAdd: string) {
+	hidePointsToAdd();
+	chosenHours = determineHours(pointsToAdd);
+	if (chosenHours == "0") {
+		document.getElementById("starting-score-choice").innerHTML = "";
+		document.getElementById("cannot-add-points").style.display = "block";
+	} else {
+		document.getElementById("points-to-add-choice").innerHTML = pointsToAdd;
+		// @ts-ignore
+		document.getElementById("hours-submit").value = chosenHours;
+		document.getElementById("hours-choice").innerHTML = chosenHours;
+		showResult(chosenHours);
+	}
 }
 
 function convertTextToTag(value: string) {
@@ -182,45 +237,13 @@ function convertTextToTag(value: string) {
 			const button = event.target as HTMLButtonElement;
 			let hourschoice;
 			// @ts-ignore
-			if (button.parentNode.parentNode.parentNode.id == "starting-score"
-				// @ts-ignore
-				|| button.parentNode.parentNode.parentNode.parentNode.id == "starting-score") {
-				hideStartingScore();
-				document.getElementById("starting-score-choice").innerHTML =
-					button.textContent;
-				if (document.getElementById("test-choice").innerHTML == "SAT") {
-					showPointsToAddSat();
-				} else if (document.getElementById("test-choice").innerHTML == "ACT") {
-					showPointsToAddAct();
-				} else if (document.getElementById("test-choice").innerHTML == "SSAT") {
-					hourschoice = determineHours(null);
-					// @ts-ignore
-					document.getElementById("hours-submit").value = hourschoice;
-					document.getElementById("hours-choice").innerHTML = hourschoice;
-					showResult(hourschoice);
-				}
-				// @ts-ignore
-			} else if (button.parentNode.parentNode.parentNode.id == "points-to-add") {
-				hidePointsToAdd();
-				const pointsToAdd = button.textContent;
-				hourschoice = determineHours(pointsToAdd);
-				if (hourschoice == "0") {
-					document.getElementById("starting-score-choice").innerHTML = "";
-					document.getElementById("sat-act-unavailable").style.display = "block";
-				} else {
-					document.getElementById("points-to-add-choice").innerHTML =
-						button.textContent;
-					// @ts-ignore
-					document.getElementById("hours-submit").value = hourschoice;
-					document.getElementById("hours-choice").innerHTML = hourschoice;
-					showResult(hourschoice);
-				}
+			if (button.parentNode.parentNode.parentNode.id == "points-to-add") {
 			} else if (button.textContent === "Proceed") {
-				document.getElementById("sat-act-unavailable").style.display = "none";
+				document.getElementById("cannot-add-points").style.display = "none";
 				if (document.getElementById("test-choice").innerHTML == "SAT") {
-					showStartingScoreSat();
+					showStartingScore("SAT");
 				} else if (document.getElementById("test-choice").innerHTML == "ACT") {
-					showStartingScoreAct();
+					showStartingScore("ACT");
 				}
 			} else if (
 				// @ts-ignore
@@ -274,8 +297,11 @@ function hideStartingScore() {
 }
 function hidePointsToAdd() {
 	document.getElementById("points-to-add").style.display = "none";
-	document.getElementById("sat-points").style.display = "none";
-	document.getElementById("act-points").style.display = "none";
+	for (const testName of testNames) {
+		if (testData[testName].canAddPoints == true) {
+			document.getElementById(`${testName.toLowerCase()}-points`).style.display = "none";
+		}
+	}
 }
 function hideExtraTable() {
 	document.getElementById("starting-score-text").style.display = "none";
@@ -301,25 +327,13 @@ function showTestDates(testName: string) {
 function showChoiceCalculation() {
 	document.getElementById("hours-calculation-choice").style.display = "block";
 }
-function showStartingScoreSat() {
+function showStartingScore(testName: string) {
 	document.getElementById("starting-score").style.display = "block";
-	document.getElementById("sat" + testStartingScoreAttrPostfix).style.display = "block";
+	document.getElementById(testName.toLowerCase() + testStartingScoreAttrPostfix).style.display = "block";
 }
-function showStartingScoreAct() {
-	document.getElementById("starting-score").style.display = "block";
-	document.getElementById("act" + testStartingScoreAttrPostfix).style.display = "block";
-}
-function showStartingScoreSsat() {
-	document.getElementById("starting-score").style.display = "block";
-	document.getElementById("ssat" + testStartingScoreAttrPostfix).style.display = "block";
-}
-function showPointsToAddSat() {
+function showPointsToAdd(testName: string) {
 	document.getElementById("points-to-add").style.display = "block";
-	document.getElementById("sat-points").style.display = "block";
-}
-function showPointsToAddAct() {
-	document.getElementById("points-to-add").style.display = "block";
-	document.getElementById("act-points").style.display = "block";
+	document.getElementById(`${testName.toLowerCase()}-points`).style.display = "block";
 }
 function showExtraTable() {
 	document.getElementById("starting-score-text").style.display = "table-cell";
@@ -501,7 +515,7 @@ function showResult(hourschoice) {
 			}
 		}
 	}
-	document.getElementById("sat-act-unavailable").style.display = "none";
+	document.getElementById("cannot-add-points").style.display = "none";
 	if (deadline === "Closed") {
 		document.getElementById("closed").style.display = "block";
 	} else {
@@ -847,19 +861,19 @@ function determineHours(pointsToAdd) {
 		}
 	} else if (document.getElementById("test-choice").innerHTML == "SSAT") {
 		if (
-			document.getElementById("starting-score-choice").innerHTML == "80-89%"
+			document.getElementById("starting-score-choice").innerHTML.trim() == "80-89%"
 		) {
 			hours = "12";
 		} else if (
-			document.getElementById("starting-score-choice").innerHTML == "70-79%"
+			document.getElementById("starting-score-choice").innerHTML.trim() == "70-79%"
 		) {
 			hours = "18";
 		} else if (
-			document.getElementById("starting-score-choice").innerHTML == "60-69%"
+			document.getElementById("starting-score-choice").innerHTML.trim() == "60-69%"
 		) {
 			hours = "24";
 		} else if (
-			document.getElementById("starting-score-choice").innerHTML == "50-59%"
+			document.getElementById("starting-score-choice").innerHTML.trim() == "50-59%"
 		) {
 			hours = "30";
 		}
